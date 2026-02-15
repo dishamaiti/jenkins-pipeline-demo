@@ -2,20 +2,15 @@ pipeline {
     agent any
 
     triggers {
-        cron('H/2 * * * *')
-        pollSCM('H/1 * * * *')
+        cron('H/5 * * * *')
+        pollSCM('H/2 * * * *')
     }
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/dishamaiti/jenkins-pipeline-demo.git'
-            }
-        }
-
         stage('Build') {
             steps {
+                checkout scm
                 sh 'chmod +x app.sh'
                 sh './app.sh'
             }
@@ -34,3 +29,6 @@ pipeline {
         }
     }
 }
+
+    
+
