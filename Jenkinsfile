@@ -1,18 +1,26 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven_HOME'
+    }
+
     triggers {
-        cron('H/5 * * * *')
-        pollSCM('H/2 * * * *')
+        pollSCM('H/2 * * * *')   // Poll every 2 minutes
+        cron('H/5 * * * *')      // Build every 5 minutes
     }
 
     stages {
 
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/dishamaiti/jenkins-pipeline-demo.git'
+            }
+        }
+
         stage('Build') {
             steps {
-                checkout scm
-                sh 'chmod +x app.sh'
-                sh './app.sh'
+                sh 'mvn clean package'
             }
         }
 
@@ -24,11 +32,10 @@ pipeline {
 
         stage('Archive Artifacts') {
             steps {
-                archiveArtifacts artifacts: '*.txt', fingerprint: true
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
     }
 }
 
-    
-
+             
