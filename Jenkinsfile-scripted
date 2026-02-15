@@ -1,0 +1,26 @@
+node {
+
+    properties([
+        pipelineTriggers([
+            cron('H/3 * * * *'),
+            pollSCM('H/2 * * * *')
+        ])
+    ])
+
+    stage('Clone Repository') {
+        git 'https://github.com/dishamaiti/jenkins-pipeline-demo.git'
+    }
+
+    stage('Build') {
+        sh 'chmod +x app.sh'
+        sh './app.sh'
+    }
+
+    stage('Echo Build Status') {
+        echo "Scripted pipeline build successful!"
+    }
+
+    stage('Archive Artifacts') {
+        archiveArtifacts artifacts: '*.txt', fingerprint: true
+    }
+}
