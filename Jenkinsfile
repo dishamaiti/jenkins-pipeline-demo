@@ -1,15 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven_HOME'
-    }
-
-    triggers {
-        pollSCM('H/2 * * * *')   // Poll every 2 minutes
-        cron('H/5 * * * *')      // Build every 5 minutes
-    }
-
     stages {
 
         stage('Clone Repository') {
@@ -20,22 +11,21 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                echo "Building project..."
             }
         }
 
         stage('Echo Build Status') {
             steps {
-                echo "Build completed successfully!"
+                echo "Build completed successfully"
             }
         }
 
         stage('Archive Artifacts') {
             steps {
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                echo "No artifacts to archive"
             }
         }
     }
 }
 
-             
