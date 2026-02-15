@@ -1,31 +1,29 @@
-pipeline {
-    agent any
+node {
 
-    stages {
+    stage('Initialize') {
+        echo "Starting Scripted Pipeline..."
+    }
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/dishamaiti/jenkins-pipeline-demo.git'
-            }
-        }
+    stage('Checkout') {
+        echo "Repository checked successfully."
+    }
 
-        stage('Build') {
-            steps {
-                echo "Building project..."
-            }
-        }
+    stage('Build') {
+        echo "Build process started..."
+        echo "Build completed successfully."
+    }
 
-        stage('Echo Build Status') {
-            steps {
-                echo "Build completed successfully"
-            }
-        }
+    stage('Test') {
+        echo "Running test cases..."
+        echo "All test cases passed."
+    }
 
-        stage('Archive Artifacts') {
-            steps {
-                echo "No artifacts to archive"
-            }
-        }
+    stage('Archive Artifacts') {
+        echo "Archiving artifacts..."
+        echo "Artifacts archived successfully."
+    }
+
+    stage('Final Status') {
+        echo "Scripted Pipeline executed successfully!"
     }
 }
-
